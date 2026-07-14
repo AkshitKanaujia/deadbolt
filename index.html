@@ -3,41 +3,302 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Deadbolt — Support</title>
+<title>Deadbolt — the iPhone app blocker that actually holds</title>
+<meta name="description" content="Set the dial, tap Bolt it, and the apps that eat your day stay locked until time's up. Daily limits, strict mode, and streaks. Private by design.">
+<meta property="og:title" content="Deadbolt — your phone works for you now">
+<meta property="og:description" content="Pick a time. Bolt it. The distractions disappear. Daily limits, strict sessions, and no account, ever.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root { color-scheme: light; }
-  body {
-    margin: 0; padding: 48px 20px 80px;
-    background: #FBF7EE; color: #2C2620;
-    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  :root {
+    color-scheme: light;
+    --cream: #FBF7EE;
+    --cream-deep: #F1E9DA;
+    --ink: #2C2620;
+    --muted: #6B6156;
+    --muted-soft: #8A8072;
+    --sage: #2F7D53;
+    --sage-bright: #4E9E6E;
+    --card: #FFFFFF;
+    --line: #E6DCC7;
+    --serif: "Newsreader", Georgia, "Times New Roman", serif;
+    --sans: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
-  main { max-width: 640px; margin: 0 auto; }
-  h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 500; font-size: 34px; letter-spacing: -0.3px; }
-  h2 { font-size: 19px; margin-top: 36px; }
-  p, li { color: #4A4238; }
-  a { color: #2F7D53; }
-  .mark { width: 34px; height: 34px; border-radius: 10px; background: #2F7D53; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
-  .mark span { width: 12px; height: 12px; border-radius: 3px; background: #FBF7EE; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body { overflow-x: hidden; max-width: 100%; }
+  body {
+    margin: 0;
+    background: radial-gradient(120% 90% at 50% 0%, var(--cream) 0%, var(--cream-deep) 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--sage); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 88px 0; }
+
+  /* ---- header ---- */
+  header {
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: saturate(140%) blur(12px);
+    background: rgba(251,247,238,.82);
+    border-bottom: 1px solid rgba(230,220,199,.6);
+  }
+  .bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; max-width: 1040px; margin: 0 auto; }
+  .brand { display: flex; align-items: center; gap: 11px; font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--ink); }
+  .brand:hover { text-decoration: none; }
+  .mark { width: 30px; height: 30px; border-radius: 9px; background: var(--sage); display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px -3px rgba(47,125,83,.5); }
+  .mark span { width: 11px; height: 11px; border-radius: 3px; background: var(--cream); }
+
+  /* ---- App Store button ---- */
+  .appstore {
+    display: inline-flex; align-items: center; gap: 11px;
+    background: var(--ink); color: var(--cream);
+    padding: 12px 20px 12px 18px; border-radius: 14px;
+    font-weight: 600; font-size: 15px; line-height: 1;
+    box-shadow: 0 10px 26px -12px rgba(44,38,32,.7);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .appstore:hover { text-decoration: none; transform: translateY(-2px); box-shadow: 0 16px 34px -14px rgba(44,38,32,.8); }
+  .appstore svg { width: 22px; height: 22px; fill: var(--cream); }
+  .appstore small { display: block; font-size: 10.5px; font-weight: 500; opacity: .82; letter-spacing: .2px; margin-bottom: 2px; }
+  .appstore b { font-size: 17px; font-weight: 700; letter-spacing: -.2px; }
+  .bar .appstore { padding: 9px 16px; box-shadow: none; }
+  .bar .appstore small { display: none; }
+  .bar .appstore b { font-size: 15px; }
+
+  /* ---- hero ---- */
+  .hero { padding-top: 72px; padding-bottom: 40px; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; }
+  .stars { color: var(--sage-bright); letter-spacing: 5px; font-size: 15px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: 2.5px; font-size: 12px; font-weight: 600; color: var(--muted-soft); margin: 10px 0 0; }
+  h1 { font-family: var(--serif); font-weight: 500; font-size: 58px; line-height: 1.03; letter-spacing: -1.2px; margin: 14px 0 0; }
+  h1 em { font-style: normal; color: var(--sage); }
+  .lede { font-size: 20px; color: var(--muted); max-width: 30ch; margin: 20px 0 30px; }
+  .cta-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .cta-note { font-size: 14px; color: var(--muted-soft); }
+
+  /* ---- phone frame ---- */
+  .phone { position: relative; width: 300px; margin: 0 auto; }
+  .phone img { width: 100%; display: block; border-radius: 44px; box-shadow: 0 40px 80px -30px rgba(44,38,32,.55), 0 0 0 1px rgba(230,220,199,.8); }
+  .hero .phone { transform: rotate(-2deg); }
+
+  /* ---- features ---- */
+  .feature { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; padding: 40px 0; }
+  .feature:nth-child(even) .feature-text { order: 2; }
+  .feature h2 { font-family: var(--serif); font-weight: 500; font-size: 38px; line-height: 1.08; letter-spacing: -.6px; margin: 0 0 6px; }
+  .feature h2 em { font-style: normal; color: var(--sage); }
+  .feature p { font-size: 18px; color: var(--muted); max-width: 42ch; }
+  .kicker { text-transform: uppercase; letter-spacing: 2px; font-size: 12px; font-weight: 700; color: var(--sage); margin: 0 0 14px; }
+  .feature .phone { width: 268px; }
+
+  .section-head { text-align: center; max-width: 620px; margin: 0 auto 8px; }
+  .section-head h2 { font-family: var(--serif); font-weight: 500; font-size: 42px; letter-spacing: -.7px; margin: 0; }
+  .section-head p { font-size: 18px; color: var(--muted); }
+
+  /* ---- reviews ---- */
+  .reviews { background: linear-gradient(180deg, transparent, rgba(230,220,199,.28) 40%, transparent); }
+  .review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; max-width: 800px; margin: 40px auto 0; }
+  .review { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 28px; box-shadow: 0 18px 40px -30px rgba(44,38,32,.4); }
+  .review .stars { font-size: 13px; letter-spacing: 4px; }
+  .review blockquote { font-family: var(--serif); font-size: 22px; line-height: 1.4; margin: 14px 0 16px; color: var(--ink); }
+  .review cite { font-style: normal; font-size: 14px; color: var(--muted-soft); font-weight: 600; }
+
+  /* ---- privacy strip ---- */
+  .privacy { text-align: center; }
+  .privacy .badge { display: inline-flex; align-items: center; gap: 9px; background: rgba(47,125,83,.1); color: var(--sage); border-radius: 999px; padding: 7px 16px; font-weight: 600; font-size: 13px; letter-spacing: .3px; }
+  .privacy h2 { font-family: var(--serif); font-weight: 500; font-size: 40px; letter-spacing: -.6px; max-width: 16ch; margin: 20px auto 12px; line-height: 1.1; }
+  .privacy p { font-size: 18px; color: var(--muted); max-width: 46ch; margin: 0 auto; }
+
+  /* ---- final CTA ---- */
+  .final { text-align: center; }
+  .final h2 { font-family: var(--serif); font-weight: 500; font-size: 50px; letter-spacing: -.9px; margin: 0 0 24px; line-height: 1.05; }
+  .final h2 em { font-style: normal; color: var(--sage); }
+
+  /* ---- support ---- */
+  .support { border-top: 1px solid var(--line); background: rgba(255,255,255,.4); }
+  .support h2 { font-family: var(--serif); font-weight: 500; font-size: 32px; letter-spacing: -.4px; margin: 0 0 6px; }
+  .support-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 48px; margin-top: 8px; }
+  .support h3 { font-size: 16px; margin: 22px 0 6px; }
+  .support p, .support li { color: var(--muted); }
+  .support ul { padding-left: 0; list-style: none; }
+  .support li { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .support li:last-child { border-bottom: none; }
+  .support li strong { color: var(--ink); display: block; margin-bottom: 3px; font-weight: 600; }
+
+  /* ---- footer ---- */
+  footer { text-align: center; padding: 40px 24px 60px; color: var(--muted-soft); font-size: 14px; border-top: 1px solid var(--line); }
+  footer a { color: var(--muted); }
+  footer .dot { margin: 0 8px; opacity: .5; }
+
+  @media (max-width: 820px) {
+    section { padding: 60px 0; }
+    .hero-grid, .feature, .support-grid, .review-grid { grid-template-columns: 1fr; }
+    .feature { gap: 28px; }
+    .feature:nth-child(even) .feature-text { order: 0; }
+    .feature-text { text-align: center; }
+    .feature p, .lede { margin-left: auto; margin-right: auto; }
+    .cta-row { justify-content: center; }
+    h1 { font-size: 40px; letter-spacing: -.8px; }
+    .hero { text-align: center; padding-top: 48px; }
+    .hero .lede { max-width: none; }
+    .feature h2 { font-size: 30px; }
+    .section-head h2 { font-size: 34px; }
+    .privacy h2 { font-size: 32px; }
+    .final h2 { font-size: 34px; letter-spacing: -.5px; }
+    .bar .appstore { display: none; }
+  }
+  @media (max-width: 420px) {
+    h1 { font-size: 34px; }
+    .lede { font-size: 18px; }
+    .feature h2 { font-size: 27px; }
+    .phone, .hero .phone, .feature .phone { width: 84vw; max-width: 300px; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <div class="mark"><span></span></div>
-  <h1>Deadbolt</h1>
-  <p>Deadbolt is an iPhone app blocker. Set the dial, tap <em>Bolt it</em>, and the apps that eat your day stay locked until time's up.</p>
 
-  <h2>Support</h2>
-  <p>Questions, problems, or ideas? Email <a href="mailto:y19iitk@gmail.com">y19iitk@gmail.com</a> — a human reads every message.</p>
+<header>
+  <div class="bar">
+    <a class="brand" href="#top"><span class="mark"><span></span></span>Deadbolt</a>
+    <a class="appstore" href="https://apps.apple.com/app/id6786733705">
+      <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+      <span><small>Download on the</small><b>App Store</b></span>
+    </a>
+  </div>
+</header>
 
-  <h2>Common questions</h2>
-  <ul>
-    <li><strong>Blocking isn't working?</strong> Make sure Deadbolt has Screen Time access: iOS Settings → Screen Time → Apps with Screen Time Access.</li>
-    <li><strong>Stuck in a strict session?</strong> That's the feature working — it ends automatically at the time you chose. Need out early? Request an emergency exit in the app and wait out the 10-minute cooldown.</li>
-    <li><strong>Manage or cancel your subscription:</strong> iOS Settings → your name → Subscriptions.</li>
-  </ul>
+<a id="top"></a>
+<div class="wrap">
 
-  <h2>Legal</h2>
-  <p><a href="./privacy/">Privacy Policy</a> · <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of Use</a></p>
-</main>
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="stars">★★★★★</div>
+        <p class="eyebrow">Loved on the App Store</p>
+        <h1>Your phone works <em>for you now.</em></h1>
+        <p class="lede">Pick a time. Bolt it. The apps that eat your day stay locked until time's up.</p>
+        <div class="cta-row">
+          <a class="appstore" href="https://apps.apple.com/app/id6786733705">
+            <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+            <span><small>Download on the</small><b>App Store</b></span>
+          </a>
+          <span class="cta-note">Free to try · iPhone</span>
+        </div>
+      </div>
+      <div class="phone">
+        <img src="assets/cap-home.png" alt="The Deadbolt home screen — a dial set to one hour, ready to bolt.">
+      </div>
+    </div>
+  </section>
+
+  <section class="feature">
+    <div class="feature-text">
+      <p class="kicker">One tap</p>
+      <h2>Set the dial. <em>Bolt it.</em></h2>
+      <p>Choose how long you need to focus and lock the apps that pull you away. No accounts, no dashboards — just a dial and a decision. When the time's up, they come back.</p>
+    </div>
+    <div class="phone"><img src="assets/cap-home.png" alt="Deadbolt's timer dial set to one hour."></div>
+  </section>
+
+  <section class="feature">
+    <div class="feature-text">
+      <p class="kicker">Runs on its own</p>
+      <h2>Daily limits. <em>Automatically.</em></h2>
+      <p>Give your distracting apps a time budget for the day. Spend it, and they lock themselves — no session to start, no decision to make. Tighten a limit and it takes effect now; ease one and it waits until tomorrow, so the you at 11pm can't overrule the you who set it.</p>
+    </div>
+    <div class="phone"><img src="assets/cap-blocks.png" alt="Deadbolt's daily blocks screen with scheduled locks."></div>
+  </section>
+
+  <section class="feature">
+    <div class="feature-text">
+      <p class="kicker">No willpower required</p>
+      <h2>Strict mode <em>means it.</em></h2>
+      <p>Turn on strict mode and there's no instant exit. Need out early? Wait out a ten-minute cooldown — or walk 200 steps. Enough friction to break the reflex, never enough to trap you.</p>
+    </div>
+    <div class="phone"><img src="assets/cap-strict.png" alt="Deadbolt's strict session screen with a countdown."></div>
+  </section>
+
+  <section class="feature">
+    <div class="feature-text">
+      <p class="kicker">See it add up</p>
+      <h2>The hours <em>you got back.</em></h2>
+      <p>Every finished session builds your streak and adds to the hours you've reclaimed. A quiet record of the time that used to disappear.</p>
+    </div>
+    <div class="phone"><img src="assets/cap-stats.png" alt="Deadbolt's stats screen showing reclaimed hours and a streak."></div>
+  </section>
+
+  <section class="reviews">
+    <div class="section-head">
+      <h2>People keep it.</h2>
+      <p>What screen-time apps usually don't earn.</p>
+    </div>
+    <div class="review-grid">
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <blockquote>“Set it once and my evenings just… came back.”</blockquote>
+        <cite>— daisseyy</cite>
+      </div>
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <blockquote>“The only screen-time app I've actually kept.”</blockquote>
+        <cite>— Marcus2521</cite>
+      </div>
+    </div>
+  </section>
+
+  <section class="privacy">
+    <span class="badge">Private by design</span>
+    <h2>No account. No tracking. Ever.</h2>
+    <p>Deadbolt never learns which apps you block or when. Everything stays on your iPhone — because a focus app has no business watching you.</p>
+  </section>
+
+  <section class="final">
+    <h2>Get your evenings <em>back — tonight.</em></h2>
+    <a class="appstore" href="https://apps.apple.com/app/id6786733705">
+      <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+      <span><small>Download on the</small><b>App Store</b></span>
+    </a>
+  </section>
+
+</div>
+
+<section class="support" id="support">
+  <div class="wrap">
+    <div class="support-grid">
+      <div>
+        <h2>Support</h2>
+        <p>Questions, problems, or ideas? Email <a href="mailto:y19iitk@gmail.com">y19iitk@gmail.com</a> — a human reads every message.</p>
+      </div>
+      <div>
+        <h3>Common questions</h3>
+        <ul>
+          <li><strong>Blocking isn't working?</strong> Make sure Deadbolt has Screen Time access: iOS Settings → Screen Time → Apps with Screen Time Access.</li>
+          <li><strong>Stuck in a strict session?</strong> That's the feature working — it ends automatically at the time you chose. Need out early? Request an emergency exit and wait out the ten-minute cooldown, or walk 200 steps.</li>
+          <li><strong>Manage or cancel your subscription:</strong> iOS Settings → your name → Subscriptions.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>
+    <a href="./privacy/">Privacy Policy</a>
+    <span class="dot">·</span>
+    <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of Use</a>
+    <span class="dot">·</span>
+    <a href="#support">Support</a>
+  </p>
+  <p>© 2026 Deadbolt · Made for people who want their time back.</p>
+</footer>
+
 </body>
 </html>
